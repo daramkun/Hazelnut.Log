@@ -1,4 +1,5 @@
 # Hazelnut.Log
+
 `Hazelnut.Log` is Logging framework.
 
 ```shell
@@ -17,12 +18,14 @@ $ dotnet add package Hazelnut.Log
 ```
 
 ## Development Goals
+
 1. `.NET 6.0` Trimming compatible
 2. `.NET 7.0` AOT compatible
 3. `Unity Engine` compatible
 4. Sync/Async Logging
 
 ## Required
+
 `.NET 7.0` SDK + Workloads (`macos`, `ios`, `tvos`, `maccatalyst`, `android`)
 
 ```shell
@@ -30,12 +33,31 @@ $ dotnet workload install macos ios tvos android maccatalyst
 ```
 
 ## Using libraries
+
 * [ZString](https://github.com/Cysharp/ZString)
 
 ## Loggable
+
 * `Debug` Output
 * Console (`Standard Output`, `Standard Error`)
 * Text File
 * `Android` Logcat
 * Apple `OSLog` (`macOS`, `iOS`, `tvOS`)
 * `Unity Engine` Logger (`.NETStandard 2.1 only`)
+
+## Message Format and File Name variables
+
+| Variable     | Details                                     |
+|--------------|---------------------------------------------|
+| Logger       | Logger Name                                 |
+| BaseDir      | Executable Directory                        |
+| Date         | Local Time-zone based Current Date and Time |
+| UtcDate      | UTC based Current Date and Time             |
+| WorkingDir   | Current Working Directory                   |
+| AppData      | Application Data Directory (Windows)        |
+| LocalAppData | Local Application Data Directory (Windows)  |
+| Documents    | Documents Directory                         |
+| ThreadId     | Current Managed Thread Id                   |
+| ThreadName   | Current Managed Thread Name                 |
+| ProcessId    | Current Process Id                          |
+| ProcessName  | Current Process Name                        |
