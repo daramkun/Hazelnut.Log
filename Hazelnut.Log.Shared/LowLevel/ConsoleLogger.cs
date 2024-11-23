@@ -47,7 +47,8 @@ internal sealed class ConsoleLogger : BaseLowLevelLogger
     protected override void InternalWrite(LogLevel logLevel, string message)
     {
 #if !(__ANDROID__ || __MACOS__ || __IOS__ || __TVOS__ || __MACCATALYST__)
-        Console.ForegroundColor = GetConsoleColor(logLevel);
+        if (((ConsoleConfiguration)Configuration).UseColors)
+            Console.ForegroundColor = GetConsoleColor(logLevel);
 #endif
         _fastCaller[(int)logLevel].Invoke(message);
     }

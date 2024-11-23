@@ -10,9 +10,11 @@ public class ConsoleConfiguration : BaseConfiguration
     public ConsoleColor FatalColor { get; }
     public ConsoleColor NoticeColor { get; }
 
+    public bool UseColors { get; }
+
     private ConsoleConfiguration(string messageFormat, LogLevel minimumLevel, LogLevel maximumLevel, bool writeNotice,
         ConsoleColor debugColor, ConsoleColor informationColor, ConsoleColor warningColor, ConsoleColor errorColor,
-        ConsoleColor fatalColor, ConsoleColor noticeColor)
+        ConsoleColor fatalColor, ConsoleColor noticeColor, bool useColors)
         : base(messageFormat, minimumLevel, maximumLevel, writeNotice)
     {
         DebugColor = debugColor;
@@ -21,6 +23,7 @@ public class ConsoleConfiguration : BaseConfiguration
         ErrorColor = errorColor;
         FatalColor = fatalColor;
         NoticeColor = noticeColor;
+        UseColors = useColors;
     }
 
     public class Builder : Builder<Builder>
@@ -31,6 +34,7 @@ public class ConsoleConfiguration : BaseConfiguration
         private ConsoleColor _errorColor = ConsoleColor.Red;
         private ConsoleColor _fatalColor = ConsoleColor.DarkRed;
         private ConsoleColor _noticeColor = ConsoleColor.DarkCyan;
+        private bool _useColors = true;
 
         public Builder WithDebugColor(ConsoleColor color)
         {
@@ -68,10 +72,16 @@ public class ConsoleConfiguration : BaseConfiguration
             return this;
         }
 
+        public Builder WithUseColors(bool useColors)
+        {
+            _useColors = useColors;
+            return this;
+        }
+
         public override ILoggerConfiguration Build()
         {
             return new ConsoleConfiguration(_messageFormat, _minimumLevel, _maximumLevel, _writeNotice, _debugColor,
-                _informationColor, _warningColor, _errorColor, _fatalColor, _noticeColor);
+                _informationColor, _warningColor, _errorColor, _fatalColor, _noticeColor, _useColors);
         }
     }
 }
