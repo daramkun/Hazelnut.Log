@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net7.0;net7.0-android;net7.0-macos;net7.0-ios;net7.0-tvos;net7.0-maccatalyst;netstandard2.1</TargetFrameworks>
+        <TargetFrameworks>net8.0;net8.0-android;net8.0-macos;net8.0-ios;net8.0-tvos;net8.0-maccatalyst;netstandard2.1</TargetFrameworks>
         <LangVersion>11</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -15,13 +15,13 @@
         <RepositoryType>git</RepositoryType>
     </PropertyGroup>
     
-    <PropertyGroup Condition=" $(TargetFramework) == 'net7.0-android' ">
+    <PropertyGroup Condition=" $(TargetFramework) == 'net8.0-android' ">
         <JavaSdkDirectory>$(JAVA_HOME)</JavaSdkDirectory>
         <AndroidSdkDirectory>$(ANDROID_HOME)</AndroidSdkDirectory>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="ZString" Version="2.5.0" />
+      <PackageReference Include="ZString" Version="2.6.0" />
     </ItemGroup>
 
     <Import Project="..\Hazelnut.Log.Shared\Hazelnut.Log.Shared.projitems" Label="Shared" />
