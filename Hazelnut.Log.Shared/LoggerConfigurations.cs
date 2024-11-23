@@ -133,92 +133,92 @@ public class LoggerConfigurations
     {
         var messageFormat = reader["MessageFormat"];
         if (messageFormat != null)
-            builder.SetMessageFormat(messageFormat);
+            builder.WithMessageFormat(messageFormat);
 
         var minimumLevel = reader["MinimumLevel"];
         if (minimumLevel != null)
-            builder.SetMinimumLevel(Enum.Parse<LogLevel>(minimumLevel, true));
+            builder.WithMinimumLevel(Enum.Parse<LogLevel>(minimumLevel, true));
 
         var maximumLevel = reader["MaximumLevel"];
         if (maximumLevel != null)
-            builder.SetMaximumLevel(Enum.Parse<LogLevel>(maximumLevel, true));
+            builder.WithMaximumLevel(Enum.Parse<LogLevel>(maximumLevel, true));
 
         var writeNotice = reader["WriteNotice"];
         if (writeNotice != null)
-            builder.SetWriteNotice(bool.Parse(writeNotice));
+            builder.WithWriteNotice(bool.Parse(writeNotice));
     }
 
     private static void LoadConsoleConfiguration(XmlReader reader, ConsoleConfiguration.Builder builder)
     {
         var debugColor = reader["DebugColor"];
         if (debugColor != null)
-            builder.SetDebugColor(Enum.Parse<ConsoleColor>(debugColor, true));
+            builder.WithDebugColor(Enum.Parse<ConsoleColor>(debugColor, true));
 
         var informationColor = reader["InformationColor"];
         if (informationColor != null)
-            builder.SetInformationColor(Enum.Parse<ConsoleColor>(informationColor, true));
+            builder.WithInformationColor(Enum.Parse<ConsoleColor>(informationColor, true));
 
         var warningColor = reader["WarningColor"];
         if (warningColor != null)
-            builder.SetWarningColor(Enum.Parse<ConsoleColor>(warningColor, true));
+            builder.WithWarningColor(Enum.Parse<ConsoleColor>(warningColor, true));
 
         var errorColor = reader["ErrorColor"];
         if (errorColor != null)
-            builder.SetErrorColor(Enum.Parse<ConsoleColor>(errorColor, true));
+            builder.WithErrorColor(Enum.Parse<ConsoleColor>(errorColor, true));
 
         var fatalColor = reader["FatalColor"];
         if (fatalColor != null)
-            builder.SetFatalColor(Enum.Parse<ConsoleColor>(fatalColor, true));
+            builder.WithFatalColor(Enum.Parse<ConsoleColor>(fatalColor, true));
 
         var noticeColor = reader["NoticeColor"];
         if (noticeColor != null)
-            builder.SetNoticeColor(Enum.Parse<ConsoleColor>(noticeColor, true));
+            builder.WithNoticeColor(Enum.Parse<ConsoleColor>(noticeColor, true));
     }
 
     private static void LoadFileConfiguration(XmlReader reader, FileConfiguration.Builder builder)
     {
         var fileName = reader["FileName"];
         if (fileName != null)
-            builder.SetFileName(fileName);
+            builder.WithFileName(fileName);
 
         var archiveLength = reader["ArchiveLength"];
         if (archiveLength != null)
-            builder.SetArchiveLength(long.Parse(archiveLength));
+            builder.WithArchiveLength(long.Parse(archiveLength));
 
         var archiveFileName = reader["ArchiveFileName"];
         if (archiveFileName != null)
-            builder.SetArchiveFileName(archiveFileName);
+            builder.WithArchiveFileName(archiveFileName);
 
         var encoding = reader["Encoding"];
         if (encoding != null)
-            builder.SetEncoding(Encoding.GetEncoding(encoding));
+            builder.WithEncoding(Encoding.GetEncoding(encoding));
     }
 
     private static void LoadUnityConfiguration(XmlReader reader, UnityConfiguration.Builder builder)
     {
         var debugColor = reader["DebugColor"];
         if (debugColor != null)
-            builder.SetDebugColor(debugColor);
+            builder.WithDebugColor(debugColor);
         
         var informationColor = reader["InformationColor"];
         if (informationColor != null)
-            builder.SetInformationColor(informationColor);
+            builder.WithInformationColor(informationColor);
         
         var warningColor = reader["WarningColor"];
         if (warningColor != null)
-            builder.SetWarningColor(warningColor);
+            builder.WithWarningColor(warningColor);
         
         var errorColor = reader["ErrorColor"];
         if (errorColor != null)
-            builder.SetErrorColor(errorColor);
+            builder.WithErrorColor(errorColor);
         
         var fatalColor = reader["FatalColor"];
         if (fatalColor != null)
-            builder.SetFatalColor(fatalColor);
+            builder.WithFatalColor(fatalColor);
         
         var noticeColor = reader["NoticeColor"];
         if (noticeColor != null)
-            builder.SetNoticeColor(noticeColor);
+            builder.WithNoticeColor(noticeColor);
     }
 
     private static void LoadAppleConfiguration(XmlReader reader, AppleConfiguration.Builder builder)

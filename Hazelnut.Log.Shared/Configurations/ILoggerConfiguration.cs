@@ -15,10 +15,10 @@ public interface ILoggerConfiguration
 
     public interface IBuilder<out T> : IBuilder where T : IBuilder<T>
     {
-        T SetMessageFormat(string messageFormat);
+        T WithMessageFormat(string messageFormat);
 
-        T SetMinimumLevel(LogLevel minimumLevel);
-        T SetMaximumLevel(LogLevel maximumLevel);
-        T SetWriteNotice(bool writeNotice);
+        T WithMinimumLevel(LogLevel minimumLevel);
+        T WithMaximumLevel(LogLevel maximumLevel);
+        T WithWriteNotice(bool writeNotice);
     }
 }

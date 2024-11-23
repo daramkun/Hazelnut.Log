@@ -32,37 +32,37 @@ public class UnityConfiguration : BaseConfiguration
         private string? _fatalColor;
         private string? _noticeColor;
 
-        public Builder SetDebugColor(string? debugColor)
+        public Builder WithDebugColor(string? debugColor)
         {
             _debugColor = debugColor;
             return this;
         }
 
-        public Builder SetInformationColor(string? informationColor)
+        public Builder WithInformationColor(string? informationColor)
         {
             _informationColor = informationColor;
             return this;
         }
 
-        public Builder SetWarningColor(string? warningColor)
+        public Builder WithWarningColor(string? warningColor)
         {
             _warningColor = warningColor;
             return this;
         }
 
-        public Builder SetErrorColor(string? errorColor)
+        public Builder WithErrorColor(string? errorColor)
         {
             _errorColor = errorColor;
             return this;
         }
 
-        public Builder SetFatalColor(string? fatalColor)
+        public Builder WithFatalColor(string? fatalColor)
         {
             _fatalColor = fatalColor;
             return this;
         }
 
-        public Builder SetNoticeColor(string? noticeColor)
+        public Builder WithNoticeColor(string? noticeColor)
         {
             _noticeColor = noticeColor;
             return this;

@@ -33,25 +33,25 @@ public class FileConfiguration : BaseConfiguration
 
         private Encoding _encoding = Encoding.UTF8;
 
-        public Builder SetFileName(string filename)
+        public Builder WithFileName(string filename)
         {
             _fileName = filename;
             return this;
         }
 
-        public Builder SetArchiveFileName(string archiveFileName)
+        public Builder WithArchiveFileName(string archiveFileName)
         {
             _archiveFileName = archiveFileName;
             return this;
         }
 
-        public Builder SetArchiveLength(long archiveLength)
+        public Builder WithArchiveLength(long archiveLength)
         {
             _archiveLength = archiveLength;
             return this;
         }
 
-        public Builder SetEncoding(Encoding encoding)
+        public Builder WithEncoding(Encoding encoding)
         {
             _encoding = encoding;
             return this;

@@ -32,37 +32,37 @@ public class ConsoleConfiguration : BaseConfiguration
         private ConsoleColor _fatalColor = ConsoleColor.DarkRed;
         private ConsoleColor _noticeColor = ConsoleColor.DarkCyan;
 
-        public Builder SetDebugColor(ConsoleColor color)
+        public Builder WithDebugColor(ConsoleColor color)
         {
             _debugColor = color;
             return this;
         }
 
-        public Builder SetInformationColor(ConsoleColor color)
+        public Builder WithInformationColor(ConsoleColor color)
         {
             _informationColor = color;
             return this;
         }
 
-        public Builder SetWarningColor(ConsoleColor color)
+        public Builder WithWarningColor(ConsoleColor color)
         {
             _warningColor = color;
             return this;
         }
 
-        public Builder SetErrorColor(ConsoleColor color)
+        public Builder WithErrorColor(ConsoleColor color)
         {
             _errorColor = color;
             return this;
         }
 
-        public Builder SetFatalColor(ConsoleColor color)
+        public Builder WithFatalColor(ConsoleColor color)
         {
             _fatalColor = color;
             return this;
         }
 
-        public Builder SetNoticeColor(ConsoleColor color)
+        public Builder WithNoticeColor(ConsoleColor color)
         {
             _noticeColor = color;
             return this;
