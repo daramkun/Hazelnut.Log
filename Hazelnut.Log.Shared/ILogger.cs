@@ -10,7 +10,7 @@ public interface ILogger : IDisposable
     bool IsWritable(LogLevel logLevel);
 
     void Write(LogLevel logLevel, string message);
-    void WriteAsync(LogLevel logLevel, string message);
+    void WriteDefer(LogLevel logLevel, string message);
 
     void FlushAsync();
 }

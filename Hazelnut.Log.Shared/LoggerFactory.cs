@@ -91,7 +91,7 @@ public class LoggerFactory : ILoggerFactory
             }
         }
 
-        public void WriteAsync(LogLevel logLevel, string message)
+        public void WriteDefer(LogLevel logLevel, string message)
         {
             string? formattedMessage = null;
             foreach (var logger in _loggers)

@@ -27,12 +27,12 @@ Console.WriteLine("=================================================");
 stopwatch.Restart();
 Parallel.For(1, 100, i =>
 {
-    logger.WriteAsync(LogLevel.Debug, "Log Test - Debug - {0}", i);
-    logger.WriteAsync(LogLevel.Information, "Log Test - Information - {0}", i);
-    logger.WriteAsync(LogLevel.Warning, "Log Test - Warning - {0}", i);
-    logger.WriteAsync(LogLevel.Error, "Log Test - Error - {0}", i);
-    logger.WriteAsync(LogLevel.Fatal, "Log Test - Fatal - {0}", i);
-    logger.WriteAsync(LogLevel.Notice, "Log Test - Notice - {0}", i);
+    logger.WriteDefer<int>(LogLevel.Debug, "Log Test - Debug - {0}", i);
+    logger.WriteDefer<int>(LogLevel.Information, "Log Test - Information - {0}", i);
+    logger.WriteDefer<int>(LogLevel.Warning, "Log Test - Warning - {0}", i);
+    logger.WriteDefer<int>(LogLevel.Error, "Log Test - Error - {0}", i);
+    logger.WriteDefer<int>(LogLevel.Fatal, "Log Test - Fatal - {0}", i);
+    logger.WriteDefer(LogLevel.Notice, "Log Test - Notice - {0}", i);
 });
 var pooled = stopwatch.Elapsed;
 logger.FlushAsync();
