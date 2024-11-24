@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using Hazelnut.Log.Configurations;
 using Hazelnut.Log.Utils;
 
@@ -11,7 +13,7 @@ using System.Collections.Concurrent;
 
 namespace Hazelnut.Log.LowLevel;
 
-internal abstract class BaseLowLevelLogger : ILowLevelLogger
+internal abstract partial class BaseLowLevelLogger : ILowLevelLogger
 {
     private static readonly Thread _asyncThread;
 #if NET7_0_OR_GREATER
@@ -153,4 +155,24 @@ internal abstract class BaseLowLevelLogger : ILowLevelLogger
     
     protected abstract object? LockObject { get; }
     protected abstract void InternalWrite(LogLevel logLevel, string message);
+
+
+
+    [return: NotNullIfNotNull(nameof(message))]
+    private string? EscapeAnsiEscapeCode(string? message)
+    {
+        return message != null && !Configuration.KeepAnsiEscapeCode
+            ? AnsiEscapeCodeRegex().Replace(message, string.Empty)
+            : message;
+    }
+
+#if NETSTANDARD2_0_OR_GREATER
+    private static readonly Regex InternalAnsiEscapeCodeRegex =
+        new("\\\\e\\[([0-9]+)(;([0-9]+))?(;([0-9]+))?(;([0-9]+))?(;([0-9]+))?m");
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static Regex AnsiEscapeCodeRegex() => InternalAnsiEscapeCodeRegex;
+#else
+    [GeneratedRegex(@"\\e\[([0-9]+)(;([0-9]+))?(;([0-9]+))?(;([0-9]+))?(;([0-9]+))?m")]
+    private static partial Regex AnsiEscapeCodeRegex();
+#endif
 }

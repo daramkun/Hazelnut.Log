@@ -132,99 +132,130 @@ public class LoggerConfigurations
     private static void LoadCommonConfiguration<T>(XmlReader reader, T builder) where T : ILoggerConfiguration.IBuilder<T>
     {
         var messageFormat = reader["MessageFormat"];
-        if (messageFormat != null)
-            builder.WithMessageFormat(messageFormat);
-
         var minimumLevel = reader["MinimumLevel"];
-        if (minimumLevel != null)
-            builder.WithMinimumLevel(Enum.Parse<LogLevel>(minimumLevel, true));
-
         var maximumLevel = reader["MaximumLevel"];
-        if (maximumLevel != null)
-            builder.WithMaximumLevel(Enum.Parse<LogLevel>(maximumLevel, true));
-
         var writeNotice = reader["WriteNotice"];
-        if (writeNotice != null)
-            builder.WithWriteNotice(bool.Parse(writeNotice));
+
+        if (messageFormat != null) builder.WithMessageFormat(messageFormat);
+        if (minimumLevel != null) builder.WithMinimumLevel(Enum.Parse<LogLevel>(minimumLevel, true));
+        if (maximumLevel != null) builder.WithMaximumLevel(Enum.Parse<LogLevel>(maximumLevel, true));
+        if (writeNotice != null) builder.WithWriteNotice(bool.Parse(writeNotice));
     }
 
     private static void LoadConsoleConfiguration(XmlReader reader, ConsoleConfiguration.Builder builder)
     {
         var debugColor = reader["DebugColor"];
-        if (debugColor != null)
-            builder.WithDebugColor(Enum.Parse<ConsoleColor>(debugColor, true));
-
         var informationColor = reader["InformationColor"];
-        if (informationColor != null)
-            builder.WithInformationColor(Enum.Parse<ConsoleColor>(informationColor, true));
-
         var warningColor = reader["WarningColor"];
-        if (warningColor != null)
-            builder.WithWarningColor(Enum.Parse<ConsoleColor>(warningColor, true));
-
         var errorColor = reader["ErrorColor"];
-        if (errorColor != null)
-            builder.WithErrorColor(Enum.Parse<ConsoleColor>(errorColor, true));
-
         var fatalColor = reader["FatalColor"];
-        if (fatalColor != null)
-            builder.WithFatalColor(Enum.Parse<ConsoleColor>(fatalColor, true));
-
         var noticeColor = reader["NoticeColor"];
-        if (noticeColor != null)
-            builder.WithNoticeColor(Enum.Parse<ConsoleColor>(noticeColor, true));
+
+        if (debugColor != null) builder.WithDebugSequence(ConsoleColorToConsoleDecoration(debugColor));
+        if (informationColor != null) builder.WithInformationSequence(ConsoleColorToConsoleDecoration(informationColor));
+        if (warningColor != null) builder.WithWarningSequence(ConsoleColorToConsoleDecoration(warningColor));
+        if (errorColor != null) builder.WithErrorSequence(ConsoleColorToConsoleDecoration(errorColor));
+        if (fatalColor != null) builder.WithFatalSequence(ConsoleColorToConsoleDecoration(fatalColor));
+        if (noticeColor != null) builder.WithNoticeSequence(ConsoleColorToConsoleDecoration(noticeColor));
+    }
+
+    private static ConsoleDecoration ReadConsoleDecoration(XmlReader reader)
+    {
+        var result = new ConsoleDecoration();
+
+        if (!reader.Read()) return new();
+
+        var foregroundColor = reader["Foreground"];
+        var backgroundColor = reader["Background"];
+        var bold = reader["Bold"];
+        var dim = reader["Dim"];
+        var italic = reader["Italic"];
+        var underline = reader["Underline"];
+        var strikeThrough = reader["StrikeThrough"];
+        var invert = reader["Invert"];
+        var blink = reader["Blink"];
+
+        if (foregroundColor != null)
+            result.Foreground = Enum.TryParse<ForegroundColor>(foregroundColor, out var resultForeground)
+                ? resultForeground
+                : ForegroundColor.Default;
+        if (backgroundColor != null)
+            result.Background = Enum.TryParse<BackgroundColor>(backgroundColor, out var resultBackground)
+                ? resultBackground
+                : BackgroundColor.Default;
+
+        if (bold != null) result.IsBold = bool.TryParse(bold, out var boldValue) && boldValue;
+        if (dim != null) result.IsDim = bool.TryParse(dim, out var dimValue) && dimValue;
+        if (italic != null) result.IsItalic = bool.TryParse(italic, out var italicValue) && italicValue;
+        if (underline != null) result.IsUnderline = bool.TryParse(underline, out var underlineValue) && underlineValue;
+        if (strikeThrough != null) result.IsStrikeThrough = bool.TryParse(strikeThrough, out var strikeThroughValue) && strikeThroughValue;
+        if (invert != null) result.IsInvert = bool.TryParse(invert, out var invertValue) && invertValue;
+
+        if (blink != null) result.BlinkKind = Enum.TryParse<BlinkKind>(blink, out var resultBlinkKind)
+            ? resultBlinkKind
+            : BlinkKind.None;
+
+        return result;
+    }
+
+    private static ConsoleDecoration ConsoleColorToConsoleDecoration(string colorString)
+    {
+        var consoleColor = Enum.Parse<ConsoleColor>(colorString, true);
+        return consoleColor switch
+        {
+            ConsoleColor.Black => new ConsoleDecoration { Foreground = ForegroundColor.Black },
+            ConsoleColor.Blue => new ConsoleDecoration { Foreground = ForegroundColor.LightBlue },
+            ConsoleColor.Cyan => new ConsoleDecoration { Foreground = ForegroundColor.LightCyan },
+            ConsoleColor.DarkBlue => new ConsoleDecoration { Foreground = ForegroundColor.Blue },
+            ConsoleColor.DarkCyan => new ConsoleDecoration { Foreground = ForegroundColor.Cyan },
+            ConsoleColor.DarkGray => new ConsoleDecoration { Foreground = ForegroundColor.White },
+            ConsoleColor.DarkGreen => new ConsoleDecoration { Foreground = ForegroundColor.Green },
+            ConsoleColor.DarkMagenta => new ConsoleDecoration { Foreground = ForegroundColor.Magenta },
+            ConsoleColor.DarkRed => new ConsoleDecoration { Foreground = ForegroundColor.Red },
+            ConsoleColor.DarkYellow => new ConsoleDecoration { Foreground = ForegroundColor.Yellow },
+            ConsoleColor.Gray => new ConsoleDecoration { Foreground = ForegroundColor.LightBlack },
+            ConsoleColor.Green => new ConsoleDecoration { Foreground = ForegroundColor.LightGreen },
+            ConsoleColor.Magenta => new ConsoleDecoration { Foreground = ForegroundColor.LightMagenta },
+            ConsoleColor.Red => new ConsoleDecoration { Foreground = ForegroundColor.LightRed },
+            ConsoleColor.White => new ConsoleDecoration { Foreground = ForegroundColor.LightWhite },
+            ConsoleColor.Yellow => new ConsoleDecoration { Foreground = ForegroundColor.LightYellow },
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 
     private static void LoadFileConfiguration(XmlReader reader, FileConfiguration.Builder builder)
     {
         var fileName = reader["FileName"];
-        if (fileName != null)
-            builder.WithFileName(fileName);
-
         var archiveLength = reader["ArchiveLength"];
-        if (archiveLength != null)
-            builder.WithArchiveLength(long.Parse(archiveLength));
-
         var archiveFileName = reader["ArchiveFileName"];
-        if (archiveFileName != null)
-            builder.WithArchiveFileName(archiveFileName);
-
         var encoding = reader["Encoding"];
-        if (encoding != null)
-            builder.WithEncoding(Encoding.GetEncoding(encoding));
+
+        if (fileName != null) builder.WithFileName(fileName);
+        if (archiveLength != null) builder.WithArchiveLength(long.Parse(archiveLength));
+        if (archiveFileName != null) builder.WithArchiveFileName(archiveFileName);
+        if (encoding != null) builder.WithEncoding(Encoding.GetEncoding(encoding));
     }
 
     private static void LoadUnityConfiguration(XmlReader reader, UnityConfiguration.Builder builder)
     {
         var debugColor = reader["DebugColor"];
-        if (debugColor != null)
-            builder.WithDebugColor(debugColor);
-        
         var informationColor = reader["InformationColor"];
-        if (informationColor != null)
-            builder.WithInformationColor(informationColor);
-        
         var warningColor = reader["WarningColor"];
-        if (warningColor != null)
-            builder.WithWarningColor(warningColor);
-        
         var errorColor = reader["ErrorColor"];
-        if (errorColor != null)
-            builder.WithErrorColor(errorColor);
-        
         var fatalColor = reader["FatalColor"];
-        if (fatalColor != null)
-            builder.WithFatalColor(fatalColor);
-        
         var noticeColor = reader["NoticeColor"];
-        if (noticeColor != null)
-            builder.WithNoticeColor(noticeColor);
+
+        if (debugColor != null) builder.WithDebugColor(debugColor);
+        if (informationColor != null) builder.WithInformationColor(informationColor);
+        if (warningColor != null) builder.WithWarningColor(warningColor);
+        if (errorColor != null) builder.WithErrorColor(errorColor);
+        if (fatalColor != null) builder.WithFatalColor(fatalColor);
+        if (noticeColor != null) builder.WithNoticeColor(noticeColor);
     }
 
     private static void LoadAppleConfiguration(XmlReader reader, AppleConfiguration.Builder builder)
     {
         var customBundleIdentifier = reader["CustomBundleIdentifier"];
-        if (customBundleIdentifier != null)
-            builder.SetCustomBundleIdentifier(customBundleIdentifier);
+        if (customBundleIdentifier != null) builder.SetCustomBundleIdentifier(customBundleIdentifier);
     }
 }

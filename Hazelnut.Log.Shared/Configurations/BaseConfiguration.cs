@@ -1,17 +1,18 @@
 ﻿namespace Hazelnut.Log.Configurations;
 
 [Serializable]
-public abstract class BaseConfiguration : ILoggerConfiguration
+public abstract partial class BaseConfiguration : ILoggerConfiguration
 {
     public string MessageFormat { get; }
 
     public LogLevel MinimumLevel { get; }
     public LogLevel MaximumLevel { get; }
     public bool WriteNotice { get; }
+    public bool KeepAnsiEscapeCode { get; }
 
     internal FormatStringOrganizer MessageFormatOrganizer { get; }
 
-    protected BaseConfiguration(string messageFormat, LogLevel minimumLevel, LogLevel maximumLevel, bool writeNotice)
+    protected BaseConfiguration(string messageFormat, LogLevel minimumLevel, LogLevel maximumLevel, bool writeNotice, bool keepAnsiEscapeCode)
     {
         MessageFormat = messageFormat;
         MessageFormatOrganizer = new FormatStringOrganizer(MessageFormat);
@@ -19,6 +20,8 @@ public abstract class BaseConfiguration : ILoggerConfiguration
         MinimumLevel = minimumLevel;
         MaximumLevel = maximumLevel;
         WriteNotice = writeNotice;
+
+        KeepAnsiEscapeCode = keepAnsiEscapeCode;
     }
 
     public abstract class Builder<T> : ILoggerConfiguration.IBuilder<T> where T : Builder<T>
@@ -30,6 +33,8 @@ public abstract class BaseConfiguration : ILoggerConfiguration
         protected LogLevel MinimumLevel = LogLevel.Debug;
         protected LogLevel MaximumLevel = LogLevel.Fatal;
         protected bool WriteNotice = true;
+
+        protected bool KeepAnsiEscapeCode = false;
         
         public T WithMessageFormat(string messageFormat = DefaultMessageFormat)
         {
@@ -52,6 +57,12 @@ public abstract class BaseConfiguration : ILoggerConfiguration
         public T WithWriteNotice(bool writeNotice)
         {
             WriteNotice = writeNotice;
+            return (T)this;
+        }
+
+        public T WithKeepAnsiEscapeCode(bool keepAnsiEscapeCode)
+        {
+            KeepAnsiEscapeCode = keepAnsiEscapeCode;
             return (T)this;
         }
 

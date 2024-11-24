@@ -12,9 +12,9 @@ public class FileConfiguration : BaseConfiguration
     
     public Encoding Encoding { get; }
 
-    private FileConfiguration(string messageFormat, LogLevel minimumLevel, LogLevel maximumLevel, bool writeNotice,
+    private FileConfiguration(string messageFormat, LogLevel minimumLevel, LogLevel maximumLevel, bool writeNotice, bool keepAnsiEscapeCode,
         string fileName, string archiveFileName, long archiveLength, Encoding encoding)
-        : base(messageFormat, minimumLevel, maximumLevel, writeNotice)
+        : base(messageFormat, minimumLevel, maximumLevel, writeNotice, keepAnsiEscapeCode)
     {
         FileName = fileName;
 
@@ -59,8 +59,8 @@ public class FileConfiguration : BaseConfiguration
         
         public override ILoggerConfiguration Build()
         {
-            return new FileConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice, _fileName,
-                _archiveFileName, _archiveLength, _encoding);
+            return new FileConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice, KeepAnsiEscapeCode,
+                _fileName, _archiveFileName, _archiveLength, _encoding);
         }
     }
 }

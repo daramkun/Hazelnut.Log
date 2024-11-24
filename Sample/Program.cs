@@ -19,7 +19,6 @@ Parallel.For(1, 100, i =>
 });
 stopwatch.Stop();
 
-Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine("=================================================");
 Console.WriteLine("Sync Write: {0}", stopwatch.Elapsed);
 Console.WriteLine("=================================================");
@@ -27,18 +26,17 @@ Console.WriteLine("=================================================");
 stopwatch.Restart();
 Parallel.For(1, 100, i =>
 {
-    logger.WriteDefer<int>(LogLevel.Debug, "Log Test - Debug - {0}", i);
-    logger.WriteDefer<int>(LogLevel.Information, "Log Test - Information - {0}", i);
-    logger.WriteDefer<int>(LogLevel.Warning, "Log Test - Warning - {0}", i);
-    logger.WriteDefer<int>(LogLevel.Error, "Log Test - Error - {0}", i);
-    logger.WriteDefer<int>(LogLevel.Fatal, "Log Test - Fatal - {0}", i);
+    logger.WriteDefer(LogLevel.Debug, "Log Test - Debug - {0}", i);
+    logger.WriteDefer(LogLevel.Information, "Log Test - Information - {0}", i);
+    logger.WriteDefer(LogLevel.Warning, "Log Test - Warning - {0}", i);
+    logger.WriteDefer(LogLevel.Error, "Log Test - Error - {0}", i);
+    logger.WriteDefer(LogLevel.Fatal, "Log Test - Fatal - {0}", i);
     logger.WriteDefer(LogLevel.Notice, "Log Test - Notice - {0}", i);
 });
 var pooled = stopwatch.Elapsed;
 logger.FlushAsync();
 stopwatch.Stop();
 
-Console.ForegroundColor = ConsoleColor.White;
 Console.WriteLine("=================================================");
 Console.WriteLine("Async Write: {0} (Flushed: {1})", pooled, stopwatch.Elapsed);
 Console.WriteLine("=================================================");

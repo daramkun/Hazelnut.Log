@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Cysharp.Text;
 using Hazelnut.Log.Utils;
 
 namespace Hazelnut.Log;
@@ -44,7 +45,7 @@ internal class FormatStringOrganizer
         var nodes = new List<Node>();
 
         var state = ParseState.Text;
-        using var builder = new Cysharp.Text.Utf16ValueStringBuilder(true);
+        using var builder = ZString.CreateStringBuilder(notNested: false);
         var tempStr = string.Empty;
 
         int iCh;
@@ -146,7 +147,7 @@ internal class FormatStringOrganizer
         if (_nodes is [TextNode onlyTextNode])
             return onlyTextNode.Text;
         
-        using var builder = new Cysharp.Text.Utf16ValueStringBuilder(true);
+        using var builder = ZString.CreateStringBuilder(notNested: false);
         foreach (var node in _nodes)
         {
             switch (node)
@@ -173,7 +174,7 @@ internal class FormatStringOrganizer
         if (_nodes is [TextNode onlyTextNode])
             return onlyTextNode.Text;
         
-        using var builder = new Cysharp.Text.Utf16ValueStringBuilder(true);
+        using var builder = ZString.CreateStringBuilder(notNested: false);
         foreach (var node in _nodes)
         {
             switch (node)
