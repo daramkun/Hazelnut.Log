@@ -80,7 +80,7 @@ public class ConsoleConfiguration : BaseConfiguration
 
         public override ILoggerConfiguration Build()
         {
-            return new ConsoleConfiguration(_messageFormat, _minimumLevel, _maximumLevel, _writeNotice, _debugColor,
+            return new ConsoleConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice, _debugColor,
                 _informationColor, _warningColor, _errorColor, _fatalColor, _noticeColor, _useColors);
         }
     }

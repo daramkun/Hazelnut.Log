@@ -70,7 +70,7 @@ public class UnityConfiguration : BaseConfiguration
         
         public override ILoggerConfiguration Build()
         {
-            return new UnityConfiguration(_messageFormat, _minimumLevel, _maximumLevel, _writeNotice, _debugColor,
+            return new UnityConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice, _debugColor,
                 _informationColor, _warningColor, _errorColor, _fatalColor, _noticeColor);
         }
     }

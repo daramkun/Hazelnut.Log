@@ -13,7 +13,7 @@ public class DebugConfiguration : BaseConfiguration
     {
         public override ILoggerConfiguration Build()
         {
-            return new DebugConfiguration(_messageFormat, _minimumLevel, _maximumLevel, _writeNotice);
+            return new DebugConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice);
         }
     }
 }

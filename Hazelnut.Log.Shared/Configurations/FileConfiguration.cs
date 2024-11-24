@@ -59,7 +59,7 @@ public class FileConfiguration : BaseConfiguration
         
         public override ILoggerConfiguration Build()
         {
-            return new FileConfiguration(_messageFormat, _minimumLevel, _maximumLevel, _writeNotice, _fileName,
+            return new FileConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice, _fileName,
                 _archiveFileName, _archiveLength, _encoding);
         }
     }

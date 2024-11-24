@@ -25,33 +25,33 @@ public abstract class BaseConfiguration : ILoggerConfiguration
     {
         private const string DefaultMessageFormat = @"[${Date:yyyy-MM-dd hh\:mm\:ss.fff}][${ShortLogType}][T:${ThreadId:0000}] ${Message}";
 
-        protected string _messageFormat = DefaultMessageFormat;
+        protected string MessageFormat = DefaultMessageFormat;
         
-        protected LogLevel _minimumLevel = LogLevel.Debug;
-        protected LogLevel _maximumLevel = LogLevel.Fatal;
-        protected bool _writeNotice = true;
+        protected LogLevel MinimumLevel = LogLevel.Debug;
+        protected LogLevel MaximumLevel = LogLevel.Fatal;
+        protected bool WriteNotice = true;
         
         public T WithMessageFormat(string messageFormat = DefaultMessageFormat)
         {
-            _messageFormat = messageFormat;
+            MessageFormat = messageFormat;
             return (T)this;
         }
 
         public T WithMinimumLevel(LogLevel minimumLevel)
         {
-            _minimumLevel = minimumLevel;
+            MinimumLevel = minimumLevel;
             return (T)this;
         }
 
         public T WithMaximumLevel(LogLevel maximumLevel)
         {
-            _maximumLevel = maximumLevel;
+            MaximumLevel = maximumLevel;
             return (T)this;
         }
 
         public T WithWriteNotice(bool writeNotice)
         {
-            _writeNotice = writeNotice;
+            WriteNotice = writeNotice;
             return (T)this;
         }
 

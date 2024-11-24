@@ -24,7 +24,7 @@ public class AppleConfiguration : BaseConfiguration
         
         public override ILoggerConfiguration Build()
         {
-            return new AppleConfiguration(_messageFormat, _minimumLevel, _maximumLevel, _writeNotice,
+            return new AppleConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice,
                 _customBundleIdentifier);
         }
     }

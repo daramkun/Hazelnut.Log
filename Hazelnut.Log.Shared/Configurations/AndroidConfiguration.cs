@@ -13,12 +13,12 @@ public class AndroidConfiguration : BaseConfiguration
     {
         public Builder()
         {
-            _messageFormat = "${Message}";
+            MessageFormat = "${Message}";
         }
         
         public override ILoggerConfiguration Build()
         {
-            return new AndroidConfiguration(_messageFormat, _minimumLevel, _maximumLevel, _writeNotice);
+            return new AndroidConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice);
         }
     }
 }
