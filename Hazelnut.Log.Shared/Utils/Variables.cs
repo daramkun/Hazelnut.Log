@@ -1,6 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+#if NETSTANDARD2_1_OR_GREATER
+using System.Runtime.InteropServices;
+#endif
 
 namespace Hazelnut.Log.Utils;
 
@@ -14,6 +17,7 @@ internal class Variables
     {
         SetVariable("Logger", name);
         SetVariable("BaseDir", AppDomain.CurrentDomain.BaseDirectory);
+        SetVariable("System", GetOperatingSystem());
         
         SetDynamicVariable("Date", (format, formatProvider) => DateTime.Now.ToString(format, formatProvider));
         SetDynamicVariable("UtcDate", (format, formatProvider) => DateTime.UtcNow.ToString(format, formatProvider));
@@ -54,4 +58,30 @@ internal class Variables
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void SetDynamicVariable(string name, DynamicVariableCallback callback) => SetVariable(name, callback);
+
+    private static string GetOperatingSystem()
+    {
+#if NETSTANDARD2_1_OR_GREATER
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) return "Windows";
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) return "Linux";
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) return "macOS";
+        return "Unknown";
+#else
+        if (OperatingSystem.IsWindows()) return "Windows";
+
+        if (OperatingSystem.IsMacCatalyst()) return "MacCatalyst";
+        if (OperatingSystem.IsMacOS()) return "macOS";
+        if (OperatingSystem.IsIOS()) return "iOS";
+        if (OperatingSystem.IsTvOS()) return "tvOS";
+
+        if (OperatingSystem.IsAndroid()) return "Android";
+        if (OperatingSystem.IsFreeBSD()) return "FreeBSD";
+        if (OperatingSystem.IsLinux()) return "Linux";
+
+        if (OperatingSystem.IsWasi()) return "WASI";
+        if (OperatingSystem.IsBrowser()) return "WASM";
+
+        return "Unknown";
+#endif
+    }
 }
