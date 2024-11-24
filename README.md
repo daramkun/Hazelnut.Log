@@ -14,7 +14,7 @@ $ dotnet add package Hazelnut.Log
 
 ```xml
 <!-- Using csproj -->
-<PackageReference Include="Hazelnut.Log" Version="1.0.0" />
+<PackageReference Include="Hazelnut.Log" Version="1.0.1" />
 ```
 
 ## Development Goals
@@ -26,7 +26,7 @@ $ dotnet add package Hazelnut.Log
 
 ## Required
 
-`.NET 7.0` SDK + Workloads (`macos`, `ios`, `tvos`, `maccatalyst`, `android`)
+`.NET 8.0` SDK + Workloads (`macos`, `ios`, `tvos`, `maccatalyst`, `android`)
 
 ```shell
 $ dotnet workload install macos ios tvos android maccatalyst
@@ -51,6 +51,7 @@ $ dotnet workload install macos ios tvos android maccatalyst
 |--------------|---------------------------------------------|
 | Logger       | Logger Name                                 |
 | BaseDir      | Executable Directory                        |
+| System       | Operating System Name                       |
 | Date         | Local Time-zone based Current Date and Time |
 | UtcDate      | UTC based Current Date and Time             |
 | WorkingDir   | Current Working Directory                   |

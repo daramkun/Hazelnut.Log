@@ -8,13 +8,13 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Title>Hazelnut.Log</Title>
         <Authors>Jin Jae-yeon</Authors>
+        <Version>1.0.1</Version>
         <Description>.NET Logging Framework</Description>
         <Copyright>Copyright ⓒ 2023-2024 Jin Jae-yeon</Copyright>
-        <PackageProjectUrl>https://github.com/daramkun/Hazelnut.Log</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/daramkun/Hazelnut.Log/blob/main/LICENSE.md</PackageLicenseUrl>
-        <RepositoryUrl>https://github.com/daramkun/Hazelnut.Log.git</RepositoryUrl>
+        <ProjectUrl>https://github.com/daramkun/Hazelnut.Log</ProjectUrl>
+        <Repository>https://github.com/daramkun/Hazelnut.Log.git</Repository>
+        <License>https://github.com/daramkun/Hazelnut.Log/blob/main/LICENSE.md</License>
         <RepositoryType>git</RepositoryType>
-        <Version>1.0.1</Version>
     </PropertyGroup>
     
     <PropertyGroup Condition=" $(TargetFramework) == 'net8.0-android' ">
