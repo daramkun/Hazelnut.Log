@@ -6,6 +6,14 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Hazelnut.Log.Shared", "Haze
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{728F79B3-0431-406F-BC4A-DC3ECBA02AE1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Root files", "Root files", "{EC057999-1461-49A3-B70B-FAF27E430033}"
+	ProjectSection(SolutionItems) = preProject
+		Build.bat = Build.bat
+		README.md = README.md
+		LICENSE.md = LICENSE.md
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

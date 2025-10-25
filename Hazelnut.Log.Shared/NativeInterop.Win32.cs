@@ -1,20 +1,28 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace Hazelnut.Log;
 
-internal partial class NativeInterop
+internal static partial class NativeInterop
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     private const int STD_INPUT_HANDLE = -10;
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     private const int STD_OUTPUT_HANDLE = -11;
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     private const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     private const uint DISABLE_NEWLINE_AUTO_RETURN = 0x0008;
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     private const uint ENABLE_VIRTUAL_TERMINAL_INPUT = 0x0200;
 
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_0_OR_GREATER
     [DllImport("kernel32")]
+    [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint lpMode);
     [DllImport("kernel32")]
+    [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint dwMode);
     [DllImport("kernel32", SetLastError = true)]
     private static extern IntPtr GetStdHandle(int nStdHandle);
@@ -33,6 +41,7 @@ internal partial class NativeInterop
     private static partial uint GetLastError();
 #endif
 
+    [SuppressMessage("ReSharper", "UnusedMethodReturnValue.Global")]
     public static bool EnableConsoleToAnsiEscapeSequence()
     {
         if (Environment.OSVersion.Version.Major < 10)
@@ -54,14 +63,13 @@ internal partial class NativeInterop
         }
 
         inConsoleMode |= ENABLE_VIRTUAL_TERMINAL_INPUT;
-        outConsoleMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN;
-
         if (!SetConsoleMode(iStdIn, inConsoleMode))
         {
             Debug.WriteLine("Failed to set stdin console mode: {0}", GetLastError());
             return false;
         }
 
+        outConsoleMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN;
         if (!SetConsoleMode(iStdOut, outConsoleMode))
         {
             Debug.WriteLine("Failed to set stdout console mode: {0}", GetLastError());

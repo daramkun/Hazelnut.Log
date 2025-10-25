@@ -193,7 +193,11 @@ internal class FormatStringOrganizer
         return builder.ToString();
     }
 
+#if NET7_0_OR_GREATER
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     private static char GetShortLogType(LogLevel logLevel) =>
         logLevel switch
         {

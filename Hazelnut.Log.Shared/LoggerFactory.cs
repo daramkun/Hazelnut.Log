@@ -40,7 +40,7 @@ public class LoggerFactory : ILoggerFactory
                     case DebugConfiguration debugConfig: loggers.Add(new DebugLogger(debugConfig, _variables)); break;
                     case ConsoleConfiguration consoleConfig: loggers.Add(new ConsoleLogger(consoleConfig, _variables)); break;
                     case FileConfiguration fileConfig: loggers.Add(new FileLogger(fileConfig, _variables)); break;
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_0_OR_GREATER
                     case UnityConfiguration unityConfig:
                         if (UnityLogger.IsUnityEngine)
                             loggers.Add(new UnityLogger(unityConfig, _variables));

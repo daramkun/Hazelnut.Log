@@ -153,7 +153,7 @@ public class ConsoleConfiguration : BaseConfiguration
         public Builder()
         {
             KeepAnsiEscapeCode = true;
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_0_OR_GREATER
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && Environment.OSVersion.Version.Major < 10)
                 KeepAnsiEscapeCode = false;
 #else
