@@ -7,9 +7,9 @@ using System.Threading.Channels;
 using Hazelnut.Log.Configurations;
 using Hazelnut.Log.Utils;
 
-namespace Hazelnut.Log.LowLevel;
+namespace Hazelnut.Log.Backends;
 
-internal sealed class DebugLogger : BaseLowLevelLogger
+internal sealed class DebugLogger : BaseLogBackend
 {
     public DebugLogger(ILoggerConfiguration config, Variables variables) : base(config, variables) { }
 

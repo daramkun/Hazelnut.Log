@@ -1,5 +1,5 @@
 ﻿using Hazelnut.Log.Configurations;
-using Hazelnut.Log.LowLevel;
+using Hazelnut.Log.Backends;
 using Hazelnut.Log.Utils;
 
 namespace Hazelnut.Log;
@@ -21,7 +21,7 @@ public class LoggerFactory : ILoggerFactory
 
     private sealed class Logger : ILogger
     {
-        private readonly ILowLevelLogger[] _loggers;
+        private readonly ILogBackend[] _loggers;
         private readonly bool _isSameMessageLayout;
         private readonly Variables _variables;
         
@@ -32,7 +32,7 @@ public class LoggerFactory : ILoggerFactory
             Name = name ?? Guid.NewGuid().ToString();
             _variables = new Variables(Name);
 
-            List<ILowLevelLogger> loggers = new();
+            List<ILogBackend> loggers = new();
             foreach (var config in configs)
             {
                 switch (config)

@@ -3,10 +3,10 @@ using System.Reflection;
 using Hazelnut.Log.Configurations;
 using Hazelnut.Log.Utils;
 
-namespace Hazelnut.Log.LowLevel;
+namespace Hazelnut.Log.Backends;
 
-#if NETSTANDARD2_1_OR_GREATER
-internal sealed class UnityLogger : BaseLowLevelLogger
+#if NETSTANDARD2_0_OR_GREATER
+internal sealed class UnityLogger : BaseLogBackend
 {
     private delegate void DebugLogMethod(object message);
     

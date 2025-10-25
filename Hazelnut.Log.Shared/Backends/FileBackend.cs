@@ -4,9 +4,9 @@ using System.Text;
 using Hazelnut.Log.Configurations;
 using Hazelnut.Log.Utils;
 
-namespace Hazelnut.Log.LowLevel;
+namespace Hazelnut.Log.Backends;
 
-internal sealed class FileLogger : BaseLowLevelLogger
+internal sealed class FileLogger : BaseLogBackend
 {
     private readonly string _targetFileName;
     private readonly FileInfo _targetFileInfo;

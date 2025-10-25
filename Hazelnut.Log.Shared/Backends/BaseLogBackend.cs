@@ -11,23 +11,23 @@ using System.Threading.Channels;
 using System.Collections.Concurrent;
 #endif
 
-namespace Hazelnut.Log.LowLevel;
+namespace Hazelnut.Log.Backends;
 
-internal abstract partial class BaseLowLevelLogger : ILowLevelLogger
+internal abstract partial class BaseLogBackend : ILogBackend
 {
     private static readonly Thread _asyncThread;
 #if NET7_0_OR_GREATER
-    private static readonly Channel<(BaseLowLevelLogger, LogLevel, string)> _asyncQueue =
-        Channel.CreateUnbounded<(BaseLowLevelLogger, LogLevel, string)>(new UnboundedChannelOptions
+    private static readonly Channel<(BaseLogBackend, LogLevel, string)> _asyncQueue =
+        Channel.CreateUnbounded<(BaseLogBackend, LogLevel, string)>(new UnboundedChannelOptions
         {
             SingleReader = true,
             SingleWriter = false
         });
 #else
-    private static readonly ConcurrentQueue<(BaseLowLevelLogger, LogLevel, string)> _asyncQueue = new();
+    private static readonly ConcurrentQueue<(BaseLogBackend, LogLevel, string)> _asyncQueue = new();
 #endif
 
-    static BaseLowLevelLogger()
+    static BaseLogBackend()
     {
         _asyncThread = new Thread(AsyncBody)
         {
@@ -94,14 +94,14 @@ internal abstract partial class BaseLowLevelLogger : ILowLevelLogger
     protected Variables Variables { get; }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public BaseLowLevelLogger(ILoggerConfiguration config, Variables variables)
+    public BaseLogBackend(ILoggerConfiguration config, Variables variables)
     {
         Configuration = config;
         Variables = variables;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    ~BaseLowLevelLogger()
+    ~BaseLogBackend()
     {
         Dispose(false);
     }

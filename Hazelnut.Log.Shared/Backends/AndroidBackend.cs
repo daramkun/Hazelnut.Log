@@ -2,10 +2,10 @@
 using Hazelnut.Log.Configurations;
 using Hazelnut.Log.Utils;
 
-namespace Hazelnut.Log.LowLevel;
+namespace Hazelnut.Log.Backends;
 
 #if __ANDROID__
-internal class AndroidLogger : BaseLowLevelLogger
+internal class AndroidLogger : BaseLogBackend
 {
     private static readonly Action<string, string>[] _fastCaller =
     {

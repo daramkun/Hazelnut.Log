@@ -1,8 +1,8 @@
 ﻿using Hazelnut.Log.Configurations;
 
-namespace Hazelnut.Log.LowLevel;
+namespace Hazelnut.Log.Backends;
 
-internal interface ILowLevelLogger : IDisposable
+internal interface ILogBackend : IDisposable
 {
     ILoggerConfiguration Configuration { get; }
     

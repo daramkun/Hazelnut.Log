@@ -3,10 +3,10 @@ using System.Runtime.CompilerServices;
 using Hazelnut.Log.Configurations;
 using Hazelnut.Log.Utils;
 
-namespace Hazelnut.Log.LowLevel;
+namespace Hazelnut.Log.Backends;
 
 #if __MACOS__ || __MACCATALYST__ || __IOS__ || __TVOS__
-internal sealed class AppleLogger : BaseLowLevelLogger
+internal sealed class AppleLogger : BaseLogBackend
 {
     private readonly CoreFoundation.OSLog _logger;
 

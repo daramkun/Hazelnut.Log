@@ -1,14 +1,13 @@
-﻿using System.Collections.Concurrent;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
 using Hazelnut.Log.Configurations;
 using Hazelnut.Log.Utils;
+#if NETSTANDARD2_0_OR_GREATER
+using System.Runtime.InteropServices;
+#endif
 
-namespace Hazelnut.Log.LowLevel;
+namespace Hazelnut.Log.Backends;
 
-using QueueItem = System.ValueTuple<ConsoleColor, LogLevel, string>;
-
-internal sealed class ConsoleLogger : BaseLowLevelLogger
+internal sealed class ConsoleLogger : BaseLogBackend
 {
     private static readonly Action<string>[] _fastCaller =
     {
@@ -28,10 +27,10 @@ internal sealed class ConsoleLogger : BaseLowLevelLogger
     public ConsoleLogger(ILoggerConfiguration config, Variables variables)
         : base(config, variables)
     {
-#if NETSTANDARD2_1_OR_GREATER
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-#else
+#if NET7_0_OR_GREATER
         if (OperatingSystem.IsWindows())
+#else
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 #endif
             NativeInterop.EnableConsoleToAnsiEscapeSequence();
     }
