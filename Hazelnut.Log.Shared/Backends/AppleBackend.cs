@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Hazelnut.Log.Configurations;
 using Hazelnut.Log.Utils;
@@ -20,16 +21,22 @@ internal sealed class AppleLogger : BaseLogBackend
 
     protected override void Dispose(bool disposing)
     {
-        _logger.Dispose();
+        lock (_logger)
+        {
+            _logger.Dispose();
+        }
     }
 
-    protected override object? LockObject => _logger;
-
-    protected override void InternalWrite(LogLevel logLevel, string message)
+    public override void Write(LogLevel logLevel, string message)
     {
-        _logger.Log(GetOSLogLevel(logLevel), message);
+        lock (_logger)
+        {
+            _logger.Log(GetOSLogLevel(logLevel), message);
+        }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     private static CoreFoundation.OSLogLevel GetOSLogLevel(LogLevel logLevel) =>
         logLevel switch
         {

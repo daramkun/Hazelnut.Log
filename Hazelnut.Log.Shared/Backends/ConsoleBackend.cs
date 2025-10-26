@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Hazelnut.Log.Configurations;
 using Hazelnut.Log.Utils;
-#if NETSTANDARD2_0_OR_GREATER
+#if !NET7_0_OR_GREATER
 using System.Runtime.InteropServices;
 #endif
 
@@ -50,10 +50,8 @@ internal sealed class ConsoleLogger : BaseLogBackend
             _ => throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, null)
         };
     }
-
-    protected override object? LockObject => null;
     
-    protected override void InternalWrite(LogLevel logLevel, string message)
+    public override void Write(LogLevel logLevel, string message)
     {
 #if !(__ANDROID__ || __MACOS__ || __IOS__ || __TVOS__ || __MACCATALYST__)
         if (((ConsoleConfiguration)Configuration).UseColors)

@@ -1,16 +1,13 @@
-﻿using Cysharp.Text;
-using Hazelnut.Log.Configurations;
-
-namespace Hazelnut.Log;
+﻿namespace Hazelnut.Log;
 
 public interface ILogger : IDisposable
 {
     string Name { get; }
+    bool IsWriteDeferred { get; set; }
 
     bool IsWritable(LogLevel logLevel);
 
     void Write(LogLevel logLevel, string message);
-    void WriteDefer(LogLevel logLevel, string message);
 
-    void FlushAsync();
+    void WaitForDeferredWritten();
 }

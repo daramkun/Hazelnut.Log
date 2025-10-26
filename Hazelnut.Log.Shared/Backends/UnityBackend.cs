@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Hazelnut.Log.Configurations;
 using Hazelnut.Log.Utils;
 
@@ -38,7 +39,7 @@ internal sealed class UnityLogger : BaseLogBackend
         _debugLogErrorFunc = debugClass!.GetMethod("LogError", parameterTypes)!.CreateDelegate(typeof(DebugLogMethod), null) as DebugLogMethod;
     }
     
-    private static readonly Action<UnityConfiguration, string>[] _fastCaller = 
+    private static readonly Action<UnityConfiguration, string>[] FastCaller = 
     {
         LogDebug,
         LogInformation,
@@ -50,14 +51,13 @@ internal sealed class UnityLogger : BaseLogBackend
 
     public UnityLogger(ILoggerConfiguration config, Variables variables) : base (config, variables) { }
 
-    protected override object? LockObject => null;
-
-    protected override void InternalWrite(LogLevel logLevel, string message)
+    public override void Write(LogLevel logLevel, string message)
     {
         var config = (UnityConfiguration)Configuration;
-        _fastCaller[(int)logLevel](config, message);
+        FastCaller[(int)logLevel](config, message);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void LogDebug(UnityConfiguration config, string message)
     {
         if (!string.IsNullOrEmpty(config.DebugColor))
@@ -65,6 +65,7 @@ internal sealed class UnityLogger : BaseLogBackend
         _debugLogFunc?.Invoke(message);
     }
     
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void LogInformation(UnityConfiguration config, string message)
     {
         if (!string.IsNullOrEmpty(config.InformationColor))
@@ -72,6 +73,7 @@ internal sealed class UnityLogger : BaseLogBackend
         _debugLogFunc?.Invoke(message);
     }
     
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void LogWarning(UnityConfiguration config, string message)
     {
         if (!string.IsNullOrEmpty(config.WarningColor))
@@ -79,6 +81,7 @@ internal sealed class UnityLogger : BaseLogBackend
         _debugLogWarningFunc?.Invoke(message);
     }
     
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void LogError(UnityConfiguration config, string message)
     {
         if (!string.IsNullOrEmpty(config.ErrorColor))
@@ -86,6 +89,7 @@ internal sealed class UnityLogger : BaseLogBackend
         _debugLogErrorFunc?.Invoke(message);
     }
     
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void LogFatal(UnityConfiguration config, string message)
     {
         if (!string.IsNullOrEmpty(config.FatalColor))

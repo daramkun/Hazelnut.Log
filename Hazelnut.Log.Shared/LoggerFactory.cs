@@ -26,6 +26,7 @@ public class LoggerFactory : ILoggerFactory
         private readonly Variables _variables;
         
         public string Name { get; }
+        public bool IsWriteDeferred { get; set; } = true;
         
         public Logger(string? name, IEnumerable<ILoggerConfiguration> configs)
         {
@@ -87,31 +88,17 @@ public class LoggerFactory : ILoggerFactory
                         (logger.Configuration as BaseConfiguration)?.MessageFormatOrganizer.Format(_variables, logLevel, message)
                         ?? new FormatStringOrganizer(logger.Configuration.MessageFormat).Format(_variables, logLevel, message);
                 
-                logger.WriteSync(logLevel, formattedMessage);
+                if (!IsWriteDeferred)
+                    logger.Write(logLevel, formattedMessage);
+                else
+                    DeferredLoggingQueue.Enqueue(logger, logLevel, formattedMessage);
             }
         }
 
-        public void WriteDefer(LogLevel logLevel, string message)
+        public void WaitForDeferredWritten()
         {
-            string? formattedMessage = null;
-            foreach (var logger in _loggers)
-            {
-                if (!logger.Configuration.IsWritable(logLevel))
-                    continue;
-
-                if (formattedMessage == null || !_isSameMessageLayout)
-                    formattedMessage =
-                        (logger.Configuration as BaseConfiguration)?.MessageFormatOrganizer.Format(_variables, logLevel, message)
-                        ?? new FormatStringOrganizer(logger.Configuration.MessageFormat).Format(_variables, logLevel, message);
-                
-                logger.WriteAsync(logLevel, formattedMessage);
-            }
-        }
-
-        public void FlushAsync()
-        {
-            foreach (var logger in _loggers)
-                logger.Flush();
+            if (IsWriteDeferred)
+                DeferredLoggingQueue.WaitUntilNotEmpty();
         }
     }
 }

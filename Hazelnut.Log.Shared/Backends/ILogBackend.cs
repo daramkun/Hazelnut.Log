@@ -6,8 +6,5 @@ internal interface ILogBackend : IDisposable
 {
     ILoggerConfiguration Configuration { get; }
     
-    void WriteSync(LogLevel logLevel, string message);
-    void WriteAsync(LogLevel logLevel, string message);
-
-    void Flush();
+    void Write(LogLevel logLevel, string message);
 }

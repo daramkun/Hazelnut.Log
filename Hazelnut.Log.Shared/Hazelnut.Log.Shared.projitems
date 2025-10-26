@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configurations\ILoggerConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configurations\LoggerConfigurationExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configurations\UnityConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DeferredLoggingQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FormatStringOrganizer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ILogger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ILoggerFactory.cs" />
