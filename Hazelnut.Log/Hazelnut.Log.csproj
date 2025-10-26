@@ -8,9 +8,9 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Title>Hazelnut.Log</Title>
         <Authors>Jin Jae-yeon</Authors>
-        <Version>1.0.1</Version>
+        <Version>1.1.0</Version>
         <Description>.NET Logging Framework</Description>
-        <Copyright>Copyright ⓒ 2023-2024 Jin Jae-yeon</Copyright>
+        <Copyright>Copyright ⓒ 2023-2025 Jin Jae-yeon</Copyright>
         <ProjectUrl>https://github.com/daramkun/Hazelnut.Log</ProjectUrl>
         <Repository>https://github.com/daramkun/Hazelnut.Log.git</Repository>
         <License>https://github.com/daramkun/Hazelnut.Log/blob/main/LICENSE.md</License>

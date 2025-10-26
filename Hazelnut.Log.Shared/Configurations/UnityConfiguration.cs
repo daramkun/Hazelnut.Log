@@ -11,10 +11,9 @@ public class UnityConfiguration : BaseConfiguration
     public string? NoticeColor { get; }
 
     private UnityConfiguration(string messageFormat, LogLevel minimumLevel, LogLevel maximumLevel, bool writeNotice,
-        bool keepAnsiEscapeCode,
         string? debugColor, string? informationColor, string? warningColor, string? errorColor, string? fatalColor,
         string? noticeColor)
-        : base(messageFormat, minimumLevel, maximumLevel, writeNotice, keepAnsiEscapeCode)
+        : base(messageFormat, minimumLevel, maximumLevel, writeNotice)
     {
         DebugColor = debugColor;
         InformationColor = informationColor;
@@ -71,7 +70,7 @@ public class UnityConfiguration : BaseConfiguration
         
         public override ILoggerConfiguration Build()
         {
-            return new UnityConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice, KeepAnsiEscapeCode,
+            return new UnityConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice,
                 _debugColor, _informationColor, _warningColor, _errorColor, _fatalColor, _noticeColor);
         }
     }

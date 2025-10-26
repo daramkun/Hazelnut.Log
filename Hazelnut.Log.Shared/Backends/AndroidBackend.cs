@@ -6,7 +6,7 @@ using Hazelnut.Log.Utils;
 namespace Hazelnut.Log.Backends;
 
 #if __ANDROID__
-internal class AndroidLogger : BaseLogBackend
+public class AndroidLogger : BaseLogBackend
 {
     private static readonly Action<string, string>[] FastCaller =
     {

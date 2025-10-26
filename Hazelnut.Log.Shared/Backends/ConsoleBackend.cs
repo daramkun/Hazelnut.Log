@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 
 namespace Hazelnut.Log.Backends;
 
-internal sealed class ConsoleLogger : BaseLogBackend
+public sealed class ConsoleLogger : BaseLogBackend
 {
-    private static readonly Action<string>[] _fastCaller =
+    private static readonly Action<string>[] FastCaller =
     {
         WriteLineToOut,         //< Debug
         WriteLineToOut,         //< Information
@@ -60,6 +60,6 @@ internal sealed class ConsoleLogger : BaseLogBackend
             message = $"{color}{message}\x1b[0m";
         }
 #endif
-        _fastCaller[(int)logLevel].Invoke(message);
+        FastCaller[(int)logLevel].Invoke(message);
     }
 }

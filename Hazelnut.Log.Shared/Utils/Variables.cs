@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 
 namespace Hazelnut.Log.Utils;
 
-internal delegate string? DynamicVariableCallback(string? format, IFormatProvider? formatProvider);
+public delegate string? DynamicVariableCallback(string? format, IFormatProvider? formatProvider);
 
-internal class Variables
+public class Variables
 {
     private readonly ConcurrentDictionary<string, object?> _variables = new();
 

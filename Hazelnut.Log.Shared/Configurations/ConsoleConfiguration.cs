@@ -114,11 +114,11 @@ public class ConsoleConfiguration : BaseConfiguration
 
     public bool UseColors { get; }
 
-    private ConsoleConfiguration(string messageFormat, LogLevel minimumLevel, LogLevel maximumLevel, bool writeNotice, bool keepAnsiEscapeCode,
+    private ConsoleConfiguration(string messageFormat, LogLevel minimumLevel, LogLevel maximumLevel, bool writeNotice,
         ConsoleDecoration? debugDecoration, ConsoleDecoration? informationDecoration, ConsoleDecoration? warningDecoration,
         ConsoleDecoration? errorDecoration, ConsoleDecoration? fatalDecoration, ConsoleDecoration? noticeDecoration,
         bool useColors)
-        : base(messageFormat, minimumLevel, maximumLevel, writeNotice, keepAnsiEscapeCode)
+        : base(messageFormat, minimumLevel, maximumLevel, writeNotice)
     {
         DebugDecoration = debugDecoration;
         InformationDecoration = informationDecoration;
@@ -149,18 +149,6 @@ public class ConsoleConfiguration : BaseConfiguration
         private ConsoleDecoration? _fatalSequence = new() { Foreground = ForegroundColor.Red };
         private ConsoleDecoration? _noticeSequence = new() { Foreground = ForegroundColor.Cyan };
         private bool _useColors = true;
-
-        public Builder()
-        {
-            KeepAnsiEscapeCode = true;
-#if NETSTANDARD2_0_OR_GREATER
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && Environment.OSVersion.Version.Major < 10)
-                KeepAnsiEscapeCode = false;
-#else
-            if (OperatingSystem.IsWindows() && Environment.OSVersion.Version.Major < 10)
-                KeepAnsiEscapeCode = false;
-#endif
-        }
 
         public Builder WithDebugSequence(ConsoleDecoration? decoration)
         {
@@ -206,7 +194,7 @@ public class ConsoleConfiguration : BaseConfiguration
 
         public override ILoggerConfiguration Build()
         {
-            return new ConsoleConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice, KeepAnsiEscapeCode,
+            return new ConsoleConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice,
                 _debugSequence, _informationSequence, _warningSequence,
                 _errorSequence, _fatalSequence, _noticeSequence,
                 _useColors);

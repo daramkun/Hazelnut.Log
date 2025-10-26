@@ -2,7 +2,7 @@
 
 namespace Hazelnut.Log.Backends;
 
-internal interface ILogBackend : IDisposable
+public interface ILogBackend : IDisposable
 {
     ILoggerConfiguration Configuration { get; }
     

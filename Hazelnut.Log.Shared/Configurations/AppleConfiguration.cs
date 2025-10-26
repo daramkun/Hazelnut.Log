@@ -5,9 +5,9 @@ public class AppleConfiguration : BaseConfiguration
 {
     public string? CustomBundleIdentifier { get; }
 
-    private AppleConfiguration(string messageFormat, LogLevel minimumLevel, LogLevel maximumLevel, bool writeNotice, bool keepAnsiEscapeCode,
+    private AppleConfiguration(string messageFormat, LogLevel minimumLevel, LogLevel maximumLevel, bool writeNotice,
         string? customBundleIdentifier)
-        : base(messageFormat, minimumLevel, maximumLevel, writeNotice, keepAnsiEscapeCode)
+        : base(messageFormat, minimumLevel, maximumLevel, writeNotice)
     {
         CustomBundleIdentifier = customBundleIdentifier;
     }
@@ -24,7 +24,7 @@ public class AppleConfiguration : BaseConfiguration
         
         public override ILoggerConfiguration Build()
         {
-            return new AppleConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice, KeepAnsiEscapeCode,
+            return new AppleConfiguration(MessageFormat, MinimumLevel, MaximumLevel, WriteNotice,
                 _customBundleIdentifier);
         }
     }

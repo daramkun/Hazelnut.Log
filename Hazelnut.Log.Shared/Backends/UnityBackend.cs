@@ -11,32 +11,32 @@ internal sealed class UnityLogger : BaseLogBackend
 {
     private delegate void DebugLogMethod(object message);
     
-    private static readonly Assembly? _unityEngineAssembly = null;
+    private static readonly Assembly? UnityEngineAssembly = null;
 
-    private static readonly DebugLogMethod? _debugLogFunc = null;
-    private static readonly DebugLogMethod? _debugLogWarningFunc = null;
-    private static readonly DebugLogMethod? _debugLogErrorFunc = null;
+    private static readonly DebugLogMethod? DebugLogFunc = null;
+    private static readonly DebugLogMethod? DebugLogWarningFunc = null;
+    private static readonly DebugLogMethod? DebugLogErrorFunc = null;
 
-    public static bool IsUnityEngine => _unityEngineAssembly != null;
+    public static bool IsUnityEngine => UnityEngineAssembly != null;
 
     static UnityLogger()
     {        
         try
         {
-            _unityEngineAssembly = Assembly.Load("UnityEngine");
+            UnityEngineAssembly = Assembly.Load("UnityEngine");
         }
         catch
         {
-            _unityEngineAssembly = null;
+            UnityEngineAssembly = null;
             return;
         }
 
         var parameterTypes = new[] { typeof(object) };
 
-        var debugClass = _unityEngineAssembly.GetType("UnityEngine.Debug");
-        _debugLogFunc = debugClass!.GetMethod("Log", parameterTypes)!.CreateDelegate(typeof(DebugLogMethod), null) as DebugLogMethod;
-        _debugLogWarningFunc = debugClass!.GetMethod("LogWarning", parameterTypes)!.CreateDelegate(typeof(DebugLogMethod), null) as DebugLogMethod;
-        _debugLogErrorFunc = debugClass!.GetMethod("LogError", parameterTypes)!.CreateDelegate(typeof(DebugLogMethod), null) as DebugLogMethod;
+        var debugClass = UnityEngineAssembly.GetType("UnityEngine.Debug");
+        DebugLogFunc = debugClass!.GetMethod("Log", parameterTypes)!.CreateDelegate(typeof(DebugLogMethod), null) as DebugLogMethod;
+        DebugLogWarningFunc = debugClass!.GetMethod("LogWarning", parameterTypes)!.CreateDelegate(typeof(DebugLogMethod), null) as DebugLogMethod;
+        DebugLogErrorFunc = debugClass!.GetMethod("LogError", parameterTypes)!.CreateDelegate(typeof(DebugLogMethod), null) as DebugLogMethod;
     }
     
     private static readonly Action<UnityConfiguration, string>[] FastCaller = 
@@ -62,7 +62,7 @@ internal sealed class UnityLogger : BaseLogBackend
     {
         if (!string.IsNullOrEmpty(config.DebugColor))
             message = $"<color={config.DebugColor}>{message}</color>";
-        _debugLogFunc?.Invoke(message);
+        DebugLogFunc?.Invoke(message);
     }
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -70,7 +70,7 @@ internal sealed class UnityLogger : BaseLogBackend
     {
         if (!string.IsNullOrEmpty(config.InformationColor))
             message = $"<color={config.InformationColor}>{message}</color>";
-        _debugLogFunc?.Invoke(message);
+        DebugLogFunc?.Invoke(message);
     }
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -78,7 +78,7 @@ internal sealed class UnityLogger : BaseLogBackend
     {
         if (!string.IsNullOrEmpty(config.WarningColor))
             message = $"<color={config.WarningColor}>{message}</color>";
-        _debugLogWarningFunc?.Invoke(message);
+        DebugLogWarningFunc?.Invoke(message);
     }
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -86,7 +86,7 @@ internal sealed class UnityLogger : BaseLogBackend
     {
         if (!string.IsNullOrEmpty(config.ErrorColor))
             message = $"<color={config.ErrorColor}>{message}</color>";
-        _debugLogErrorFunc?.Invoke(message);
+        DebugLogErrorFunc?.Invoke(message);
     }
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -94,14 +94,14 @@ internal sealed class UnityLogger : BaseLogBackend
     {
         if (!string.IsNullOrEmpty(config.FatalColor))
             message = $"<color={config.FatalColor}>{message}</color>";
-        _debugLogErrorFunc?.Invoke(message);
+        DebugLogErrorFunc?.Invoke(message);
     }
     
     private static void LogNotice(UnityConfiguration config, string message)
     {
         if (!string.IsNullOrEmpty(config.NoticeColor))
             message = $"<color={config.NoticeColor}>{message}</color>";
-        _debugLogFunc?.Invoke(message);
+        DebugLogFunc?.Invoke(message);
     }
 }
 #endif

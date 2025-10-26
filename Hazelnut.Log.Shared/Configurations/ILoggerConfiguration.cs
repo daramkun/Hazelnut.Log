@@ -7,7 +7,6 @@ public interface ILoggerConfiguration
     LogLevel MinimumLevel { get; }
     LogLevel MaximumLevel { get; }
     bool WriteNotice { get; }
-    bool KeepAnsiEscapeCode { get; }
 
     public interface IBuilder
     {
