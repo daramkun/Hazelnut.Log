@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Cysharp.Text;
 using Hazelnut.Log.Utils;
 
@@ -146,7 +147,8 @@ internal class FormatStringOrganizer
     {
         if (_nodes is [TextNode onlyTextNode])
             return onlyTextNode.Text;
-        
+
+        string? stackTrace = null;
         using var builder = ZString.CreateStringBuilder(notNested: false);
         foreach (var node in _nodes)
         {
@@ -156,6 +158,10 @@ internal class FormatStringOrganizer
                 case VariableNode { VariableName: "Message" }: builder.Append(message); break;
                 case VariableNode { VariableName: "LogType" }: builder.Append(logLevel); break;
                 case VariableNode { VariableName: "ShortLogType" }: builder.Append(GetShortLogType(logLevel)); break;
+                case VariableNode { VariableName: "StackTrace" }:
+                    stackTrace ??= new StackTrace(skipFrames: 2, fNeedFileInfo: true).ToString();
+                    builder.Append(stackTrace);
+                    break;
                 case VariableNode variableNode:
                 {
                     var text = variables.GetVariable(variableNode.VariableName, variableNode.FormatString);
