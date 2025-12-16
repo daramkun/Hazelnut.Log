@@ -6,17 +6,12 @@ using Hazelnut.Log.Utils;
 
 namespace Hazelnut.Log.Backends;
 
-public abstract partial class BaseLogBackend : ILogBackend
+[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
+public abstract partial class BaseLogBackend(ILoggerConfiguration config, Variables variables)
+    : ILogBackend
 {
-    public ILoggerConfiguration Configuration { get; }
-    protected Variables Variables { get; }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public BaseLogBackend(ILoggerConfiguration config, Variables variables)
-    {
-        Configuration = config;
-        Variables = variables;
-    }
+    public ILoggerConfiguration Configuration { get; } = config;
+    protected Variables Variables { get; } = variables;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     ~BaseLogBackend()

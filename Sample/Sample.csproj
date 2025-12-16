@@ -11,10 +11,4 @@
       <ProjectReference Include="..\Hazelnut.Log\Hazelnut.Log.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="LogConfig.xml">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
 </Project>

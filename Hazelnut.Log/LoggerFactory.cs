@@ -4,19 +4,31 @@ using Hazelnut.Log.Utils;
 
 namespace Hazelnut.Log;
 
-public class LoggerFactory : ILoggerFactory
+public class LoggerFactory(params ILoggerConfiguration[] configs) : ILoggerFactory
 {
-    private readonly ILoggerConfiguration[] _configs;
-    
-    public LoggerFactory(params ILoggerConfiguration[] configs) => _configs = configs;
-    public LoggerFactory(IEnumerable<ILoggerConfiguration> configs) => _configs = configs.ToArray();
-    public LoggerFactory(LoggerConfigurations configs) => _configs = configs.Configurations;
-    public LoggerFactory(ReadOnlySpan<ILoggerConfiguration> configs) => _configs = configs.ToArray();
-    public LoggerFactory(Span<ILoggerConfiguration> configs) => _configs = configs.ToArray();
+    public LoggerFactory(IEnumerable<ILoggerConfiguration> configs)
+        : this(configs.ToArray())
+    {
+    }
+
+    public LoggerFactory(LoggerConfigurations configs)
+        : this(configs.Configurations)
+    {
+    }
+
+    public LoggerFactory(ReadOnlySpan<ILoggerConfiguration> configs)
+        : this(configs.ToArray())
+    {
+    }
+
+    public LoggerFactory(Span<ILoggerConfiguration> configs)
+        : this(configs.ToArray())
+    {
+    }
 
     public ILogger CreateLogger(string? name = null)
     {
-        return new Logger(name, _configs);
+        return new Logger(name, configs);
     }
 
     private sealed class Logger : ILogger
@@ -41,12 +53,6 @@ public class LoggerFactory : ILoggerFactory
                     case DebugConfiguration debugConfig: loggers.Add(new DebugLogger(debugConfig, _variables)); break;
                     case ConsoleConfiguration consoleConfig: loggers.Add(new ConsoleLogger(consoleConfig, _variables)); break;
                     case FileConfiguration fileConfig: loggers.Add(new FileLogger(fileConfig, _variables)); break;
-#if NETSTANDARD2_0_OR_GREATER
-                    case UnityConfiguration unityConfig:
-                        if (UnityLogger.IsUnityEngine)
-                            loggers.Add(new UnityLogger(unityConfig, _variables));
-                        break;
-#endif
 #if __ANDROID__
                     case AndroidConfiguration androidConfig: loggers.Add(new AndroidLogger(androidConfig, _variables, name!)); break;
 #endif
@@ -69,10 +75,7 @@ public class LoggerFactory : ILoggerFactory
 
         public bool IsWritable(LogLevel logLevel)
         {
-            foreach (var logger in _loggers)
-                if (logger.Configuration.IsWritable(logLevel))
-                    return true;
-            return false;
+            return _loggers.Any(logger => logger.Configuration.IsWritable(logLevel));
         }
 
         public void Write(LogLevel logLevel, string message)

@@ -1,7 +1,12 @@
 ﻿using System.Diagnostics;
 using Hazelnut.Log;
+using Hazelnut.Log.Configurations;
 
-var loggerFactory = new LoggerFactory(LoggerConfigurations.FromFile("LogConfig.xml"));
+var loggerFactory = new LoggerFactory(new LoggerConfigurations(
+    new DebugConfiguration.Builder().Build(),
+    new ConsoleConfiguration.Builder().Build(),
+    new FileConfiguration.Builder().Build()
+));
 
 var logger = loggerFactory.CreateLogger("Sample");
 

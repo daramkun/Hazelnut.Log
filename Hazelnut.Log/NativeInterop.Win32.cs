@@ -17,18 +17,6 @@ internal static partial class NativeInterop
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     private const uint ENABLE_VIRTUAL_TERMINAL_INPUT = 0x0200;
 
-#if NETSTANDARD2_0_OR_GREATER
-    [DllImport("kernel32")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint lpMode);
-    [DllImport("kernel32")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint dwMode);
-    [DllImport("kernel32", SetLastError = true)]
-    private static extern IntPtr GetStdHandle(int nStdHandle);
-    [DllImport("kernel32")]
-    public static extern uint GetLastError();
-#else
     [LibraryImport("kernel32", EntryPoint = "GetConsoleMode")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool GetConsoleMode(nint hConsoleHandle, out uint lpMode);
@@ -39,7 +27,6 @@ internal static partial class NativeInterop
     private static partial nint GetStdHandle(int nStdHandle);
     [LibraryImport("kernel32", EntryPoint = "GetLastError")]
     private static partial uint GetLastError();
-#endif
 
     [SuppressMessage("ReSharper", "UnusedMethodReturnValue.Global")]
     public static bool EnableConsoleToAnsiEscapeSequence()
@@ -50,13 +37,13 @@ internal static partial class NativeInterop
         var iStdIn = GetStdHandle(STD_INPUT_HANDLE);
         var iStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
-        if (!GetConsoleMode(iStdIn, out uint inConsoleMode))
+        if (!GetConsoleMode(iStdIn, out var inConsoleMode))
         {
             Debug.WriteLine("Failed to get stdin console mode: {0}", GetLastError());
             return false;
         }
 
-        if (!GetConsoleMode(iStdOut, out uint outConsoleMode))
+        if (!GetConsoleMode(iStdOut, out var outConsoleMode))
         {
             Debug.WriteLine("Failed to get stdout console mode: {0}", GetLastError());
             return false;

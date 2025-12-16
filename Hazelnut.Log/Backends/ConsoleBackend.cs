@@ -27,11 +27,7 @@ public sealed class ConsoleLogger : BaseLogBackend
     public ConsoleLogger(ILoggerConfiguration config, Variables variables)
         : base(config, variables)
     {
-#if NET7_0_OR_GREATER
         if (OperatingSystem.IsWindows())
-#else
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-#endif
             NativeInterop.EnableConsoleToAnsiEscapeSequence();
     }
 

@@ -12,8 +12,8 @@ public sealed class FileLogger : BaseLogBackend
     public FileLogger(ILoggerConfiguration config, Variables variables)
         : base(config, variables)
     {
-        var fileConf = (FileConfiguration)config; 
-        
+        var fileConf = (FileConfiguration)config;
+
         _targetFileName = string.Intern(new FormatStringOrganizer(fileConf.FileName).Format(variables));
         _targetFileInfo = new FileInfo(_targetFileName);
 
@@ -21,7 +21,7 @@ public sealed class FileLogger : BaseLogBackend
         if (!Directory.Exists(path))
             Directory.CreateDirectory(path);
     }
-    
+
     public override void Write(LogLevel logLevel, string message)
     {
         lock (_targetFileName)
@@ -29,36 +29,41 @@ public sealed class FileLogger : BaseLogBackend
             File.AppendAllText(_targetFileName, message + Environment.NewLine);
 
             var config = (FileConfiguration)Configuration;
-            if (config.ArchiveLength > 0 && !string.IsNullOrEmpty(config.ArchiveFileName) &&
-                config.ArchiveLength <= _targetFileInfo.Length)
+            if (config.ArchiveLength <= 0 || string.IsNullOrEmpty(config.ArchiveFileName) ||
+                config.ArchiveLength > _targetFileInfo.Length)
+                return;
+            
+            var movingFileName = new FormatStringOrganizer(config.ArchiveFileName).Format(Variables);
+            switch (config.ArchiveCompressionMethod)
             {
-                var movingFileName = new FormatStringOrganizer(config.ArchiveFileName).Format(Variables);
-                if (config.ArchiveCompressionMethod == ArchiveCompressionMethod.GZip)
+                case ArchiveCompressionMethod.GZip:
                 {
                     var recent = File.ReadAllBytes(_targetFileName);
                     File.Delete(_targetFileName);
-                    
+
                     using var stream = File.OpenWrite(movingFileName);
                     using var gzip = new GZipStream(stream, CompressionMode.Compress, true);
                     gzip.Write(recent, 0, recent.Length);
                     gzip.Flush();
+                    break;
                 }
-#if NET7_0_OR_GREATER
-                else if (config.ArchiveCompressionMethod == ArchiveCompressionMethod.Brotli)
+
+                case ArchiveCompressionMethod.Brotli:
                 {
                     var recent = File.ReadAllBytes(_targetFileName);
                     File.Delete(_targetFileName);
-                    
+
                     using var stream = File.OpenWrite(movingFileName);
                     using var br = new BrotliStream(stream, CompressionMode.Compress, true);
                     br.Write(recent, 0, recent.Length);
                     br.Flush();
+                    break;
                 }
-#endif
-                else
-                {
+
+                case ArchiveCompressionMethod.None:
+                default:
                     File.Move(_targetFileName, movingFileName);
-                }
+                    break;
             }
         }
     }

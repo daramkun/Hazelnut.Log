@@ -25,6 +25,4 @@
     <ItemGroup>
       <PackageReference Include="ZString" Version="2.6.0" />
     </ItemGroup>
-
-    <Import Project="..\Hazelnut.Log.Shared\Hazelnut.Log.Shared.projitems" Label="Shared" />
 </Project>

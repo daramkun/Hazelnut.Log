@@ -6,9 +6,7 @@ public enum ArchiveCompressionMethod
 {
     None,
     GZip,
-#if NET7_0_OR_GREATER
     Brotli,
-#endif
 }
 
 [Serializable]
@@ -43,7 +41,7 @@ public class FileConfiguration : BaseConfiguration
         
         private string _archiveFileName = "${BaseDir}/Logs/${Logger}-${Date:yyyy-MM-dd}.log";
         private long _archiveLength = 12000000;
-        private ArchiveCompressionMethod _archiveCompressionMethod = Configurations.ArchiveCompressionMethod.None;
+        private ArchiveCompressionMethod _archiveCompressionMethod = ArchiveCompressionMethod.None;
 
         private Encoding _encoding = Encoding.UTF8;
 

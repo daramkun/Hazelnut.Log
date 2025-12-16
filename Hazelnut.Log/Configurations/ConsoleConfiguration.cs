@@ -74,20 +74,20 @@ public class ConsoleDecoration
     {
         if (!IsBold && !IsDim && !IsItalic && !IsUnderline && BlinkKind == BlinkKind.None && !IsInvert &&
             Foreground == ForegroundColor.Default && Background == BackgroundColor.Default)
-            return "\x1b[0m";
+            return "\e[0m";
 
         var builder = ZString.CreateStringBuilder(notNested: false);
-        if (IsBold) builder.Append("\x1b[1m");
-        if (IsDim) builder.Append("\x1b[2m");
-        if (IsItalic) builder.Append("\x1b[3m");
-        if (IsUnderline) builder.Append("\x1b[4m");
-        if (BlinkKind == BlinkKind.Slow) builder.Append("\x1b[5m");
-        if (BlinkKind == BlinkKind.Rapid) builder.Append("\x1b[6m");
-        if (IsInvert) builder.Append("\x1b[7m");
-        if (IsStrikeThrough) builder.Append("\x1b[9m");
+        if (IsBold) builder.Append("\e[1m");
+        if (IsDim) builder.Append("\e[2m");
+        if (IsItalic) builder.Append("\e[3m");
+        if (IsUnderline) builder.Append("\e[4m");
+        if (BlinkKind == BlinkKind.Slow) builder.Append("\e[5m");
+        if (BlinkKind == BlinkKind.Rapid) builder.Append("\e[6m");
+        if (IsInvert) builder.Append("\e[7m");
+        if (IsStrikeThrough) builder.Append("\e[9m");
 
-        if (Foreground != ForegroundColor.Default) builder.Append($"\x1b[{(int)Foreground}m");
-        if (Background != BackgroundColor.Default) builder.Append($"\x1b[{(int)Background}m");
+        if (Foreground != ForegroundColor.Default) builder.Append($"\e[{(int)Foreground}m");
+        if (Background != BackgroundColor.Default) builder.Append($"\e[{(int)Background}m");
 
         return builder.ToString();
     }
@@ -96,7 +96,7 @@ public class ConsoleDecoration
 [Serializable]
 public class ConsoleConfiguration : BaseConfiguration
 {
-    private static readonly string DefaultAnsiEscapeSequence = "\x1b[0m";
+    private static readonly string DefaultAnsiEscapeSequence = "\e[0m";
 
     public ConsoleDecoration? DebugDecoration { get; }
     public ConsoleDecoration? InformationDecoration { get; }
