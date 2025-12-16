@@ -3,14 +3,21 @@
 `Hazelnut.Log` is Logging framework.
 
 ```shell
-$ # Using Nuget Package Manager Console
-$ nuget Install-Package Hazelnut.Log
+$ # Add Package Source of GitHub to .NET
+$ # This is required before add package
+$ dotnet nuget add source "https://nuget.pkg.github.com/daramkun/index.json" \
+  --name "GitHub" \
+  --username "<YOUR GITHUB USERNAME>" \
+  --password "<YOUR PAT TOKEN>" \
+  --store-password-in-clear-text
 ```
 
 ```shell
 $ # Using .NET CLI
 $ dotnet add package Hazelnut.Log
 ```
+
+or
 
 ```xml
 <!-- Using csproj -->
