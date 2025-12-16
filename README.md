@@ -21,7 +21,7 @@ or
 
 ```xml
 <!-- Using csproj -->
-<PackageReference Include="Hazelnut.Log" Version="1.0.1" />
+<PackageReference Include="Hazelnut.Log" Version="1.2.0" />
 ```
 
 ## Development Goals
