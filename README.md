@@ -21,8 +21,7 @@ $ dotnet add package Hazelnut.Log
 
 1. `.NET 6.0` Trimming compatible
 2. `.NET 7.0` AOT compatible
-3. `Unity Engine` compatible
-4. Sync/Async Logging
+3. Sync/Async Logging
 
 ## Required
 
@@ -43,7 +42,6 @@ $ dotnet workload install macos ios tvos android maccatalyst
 * Text File
 * `Android` Logcat
 * Apple `OSLog` (`macOS`, `iOS`, `tvOS`)
-* `Unity Engine` Logger (`.NETStandard 2.1 only`)
 
 ## Message Format and File Name variables
 
