@@ -25,7 +25,7 @@ $ dotnet add package Hazelnut.Log
 
 ## Required
 
-`.NET 8.0` SDK + Workloads (`macos`, `ios`, `tvos`, `maccatalyst`, `android`)
+`.NET 10.0` SDK + Workloads (`macos`, `ios`, `tvos`, `maccatalyst`, `android`)
 
 ```shell
 $ dotnet workload install macos ios tvos android maccatalyst
