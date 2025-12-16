@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Root files/">
+    <File Path=".gitignore" />
+    <File Path="Build.bat" />
+    <File Path="LICENSE.md" />
+    <File Path="README.md" />
+    <File Path=".github/workflows/publish.yml"/>
+  </Folder>
+  <Project Path="Hazelnut.Log/Hazelnut.Log.csproj" />
+  <Project Path="Sample/Sample.csproj" />
+</Solution>
